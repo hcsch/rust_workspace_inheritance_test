@@ -36,7 +36,7 @@
           version = "1.0";
           src = ./.;
 
-          cargoHash = "sha256-tXr4dxqAtwDyOxCT5645PxuBvICjgaWSry/hAVxYIg8=";
+          cargoHash = "sha256-YZtOlUNVUmWKn1vVroUyG9Fw+KeZZ3kQYVuq1/yi9+8=";
 
           inherit buildInputs nativeBuildInputs;
         };
