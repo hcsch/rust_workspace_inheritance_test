@@ -4,20 +4,22 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, flake-utils, nixpkgs, fenix }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    { flake-utils, nixpkgs, ... }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs { inherit system; };
         nativeBuildInputs = with pkgs; [
-          rustc
           cargo
-          pkg-config
+          rustc
 
-          llvmPackages.clangUseLLVM
-          mold
+          pkg-config
         ];
-        buildInputs = with pkgs; [ 
-          udev alsa-lib-with-plugins vulkan-loader
+        buildInputs = with pkgs; [
+          udev
+          alsa-lib-with-plugins
+          vulkan-loader
 
           xorg.libX11
           xorg.libXcursor
@@ -27,20 +29,20 @@
           libxkbcommon
           wayland
         ];
-      in {
+      in
+      {
         packages.default = pkgs.rustPlatform.buildRustPackage {
           name = "rust_workspace_inheritance_test";
           version = "1.0";
           src = ./.;
 
           cargoHash = "sha256-tXr4dxqAtwDyOxCT5645PxuBvICjgaWSry/hAVxYIg8=";
+
+          inherit buildInputs nativeBuildInputs;
         };
 
-        devShells.default = pkgs.mkShell.override {
-          stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clangStdenv;
-        } pkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           inherit buildInputs nativeBuildInputs;
-          LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath buildInputs}";
         };
       }
     );
