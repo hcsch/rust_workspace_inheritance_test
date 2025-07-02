@@ -13,21 +13,8 @@
         nativeBuildInputs = with pkgs; [
           cargo
           rustc
-
-          pkg-config
         ];
         buildInputs = with pkgs; [
-          udev
-          alsa-lib-with-plugins
-          vulkan-loader
-
-          xorg.libX11
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXrandr
-
-          libxkbcommon
-          wayland
         ];
       in
       {
@@ -36,7 +23,7 @@
           version = "1.0";
           src = ./.;
 
-          cargoHash = "sha256-YZtOlUNVUmWKn1vVroUyG9Fw+KeZZ3kQYVuq1/yi9+8=";
+          cargoHash = "sha256-m75JS8DR8ofXS0kREYNApsC3BwnG0uFQPpvwK76O/vM=";
 
           inherit buildInputs nativeBuildInputs;
         };
